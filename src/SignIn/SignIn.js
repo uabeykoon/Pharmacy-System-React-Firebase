@@ -14,7 +14,7 @@ class SignIn extends Component {
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
 
-                        <h2 className="active"> Sign In </h2>
+
                         <h2 className="inactive underlineHover">Sign Up </h2>
 
 
