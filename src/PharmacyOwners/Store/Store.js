@@ -6,7 +6,6 @@ import Table from "./Table/Table";
 
 class Store extends Component {
     state = {
-        pharmacyID: "-MDVYXFwg7-kKtMce312",
         loading: false,
         addButtonDisable: false,
         validateErrorMessage: false,
@@ -48,7 +47,7 @@ class Store extends Component {
                 validateErrorMessage: false
             });
             let object = {
-                pharmacyID: "-MDVYXFwg7-kKtMce312",
+                pharmacyID: localStorage.getItem("id"),
                 medicineID: this.state.selectedMedicineTOAdd,
                 availableAmount: this.state.selectedMedicineAmountToAdd
             }
@@ -83,7 +82,7 @@ class Store extends Component {
     }
 
     fetchMedicineRelatedToPharmacy = () => {
-        return axiosDB.get(`pharmacyMedicine.json?orderBy="pharmacyID"&equalTo="${this.state.pharmacyID}"`)
+        return axiosDB.get(`pharmacyMedicine.json?orderBy="pharmacyID"&equalTo="${localStorage.getItem("id")}"`)
 
     }
 

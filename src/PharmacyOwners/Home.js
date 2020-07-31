@@ -6,6 +6,11 @@ import './Home.css';
 
 class Home extends Component {
 
+    onLogoutClick =() =>{
+        localStorage.removeItem("id");
+        this.props.history.push("/");
+    }
+
 
     render() {
         console.log(this.props.match.url + "/store");
@@ -15,6 +20,7 @@ class Home extends Component {
                     <ul>
                         <li><NavLink to={this.props.match.url + "/store"} >Store</NavLink></li>
                         <li><NavLink to={this.props.match.url + "/orders"}>Orders</NavLink></li>
+                        <li><a onClick={this.onLogoutClick}><span className="logout">Log out</span></a></li>
                     </ul>
                 </div>
                 <div>

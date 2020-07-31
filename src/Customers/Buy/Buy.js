@@ -5,6 +5,7 @@ import TableCus from "./TableCus/TableCus";
 class Buy extends Component {
 
     state = {
+        customerID:null,
         loading: false,
         validateErrorMessage:false,
         disableMedicine: false,
@@ -20,6 +21,9 @@ class Buy extends Component {
 
 
     componentDidMount() {
+        this.setState({
+            customerID:localStorage.getItem("id")
+        })
         this.fetchPharmacy();
         //this.fetchMedicine();
     }
@@ -92,20 +96,21 @@ class Buy extends Component {
     onClickPlaceOrder =() =>{
         //console.log(localStorage.getItem("id"));
         //console.log("clicked")
-        if(this.state.purchasingList.length===0){
+        if(this.state.purchasingList.length===0 || this.state.customerID===null){
             console.log("empty");
-        }else{
+        }else{ 
             
             let object = {
-                customerID:"-MDVbS0UfgjtYDGRXFch",
+                customerID:this.state.customerID,
                 pharmacyID:this.state.selectedPharmacy,
                 medicines:this.state.purchasingList,
-                totalPrice:this.calculateTotalPrice(this.state.purchasingList)
+                totalPrice:this.calculateTotalPrice(this.state.purchasingList),
+                type:"p"
             };
             this.addOrder(object)
             .then((res)=>{
-                console.log(res);
-                console.log(this.props.match.url);
+                //console.log(res);
+                //console.log(this.props.match.url);
                 this.props.history.push("/customer/myorders")
             }).catch((e)=>{
                 console.log(e);

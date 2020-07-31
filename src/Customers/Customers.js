@@ -3,8 +3,13 @@ import { axiosAPI, axiosDB } from "../Axios/Axios";
 import Buy from "./Buy/Buy";
 import { NavLink, Route, Switch } from "react-router-dom";
 import MyOrders from "./MyOrders/MyOrders";
+import './Customer.css';
 
 class Customers extends Component {
+    onLogoutClick =() =>{
+        localStorage.removeItem("id");
+        this.props.history.push("/");
+    }
 
     render() {
         return (
@@ -13,6 +18,7 @@ class Customers extends Component {
                     <ul>
                         <li><NavLink to={this.props.match.url + "/buy"} >Buy</NavLink></li>
                         <li><NavLink to={this.props.match.url + "/myorders"}>My Orders</NavLink></li>
+                        <li><a onClick={this.onLogoutClick}><span className="logout">Log out</span></a></li>
                     </ul>
                 </div>
                 <div>
