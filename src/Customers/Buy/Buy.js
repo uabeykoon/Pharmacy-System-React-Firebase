@@ -76,7 +76,8 @@ class Buy extends Component {
             let array=[];
             array=[...this.state.purchasingList,obj]
             this.setState({
-                purchasingList:array
+                purchasingList:array,
+                validateErrorMessage:false
             });
 
         }

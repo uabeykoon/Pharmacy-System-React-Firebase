@@ -14,7 +14,8 @@ const Table = (props) => {
                         <th>Madicine Name</th>
                         <th>Dose</th>
                         <th>Price Per Unit</th>
-                        <th>Available Amount</th>
+                        <th>Available Amount <input type="text" onChange={(e)=>props.onChangeAmount(e)}></input></th>
+                        <th>Delete</th>
 
                     </tr>
                 </thead>
@@ -24,7 +25,8 @@ const Table = (props) => {
                                         <td>{medicine.medicineID.name}</td>
                                         <td>{medicine.medicineID.dose}</td>
                                         <td>{medicine.medicineID.price}</td>
-                                        <td>{medicine.availableAmount}</td>
+                                        <td>{medicine.availableAmount}        <button className="btn btn-primary" onClick={()=>props.onClickUpdate(medicine.id)}>Update</button></td>
+                                        <td><button className="btn btn-danger" onClick={()=>props.delete(medicine.id)}>Delete</button></td>
                                     </tr>);
                                 })}  
                 </tbody>

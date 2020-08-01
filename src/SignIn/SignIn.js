@@ -28,7 +28,7 @@ class SignIn extends Component {
     onCustomerRegistrationClick=()=>{
         this.props.history.push("/customerregistration");
     }
-    onCustomerRegistrationClick=()=>{
+    onPharmacyRegistrationClick=()=>{
         this.props.history.push("/pharmacyregistration");
     }
     onEmailChange = (event) => {
@@ -123,7 +123,7 @@ class SignIn extends Component {
                         <div id="formFooter">
                             <Link onClick={this.onCustomerRegistrationClick}>Customer Registration</Link>
                             <br />
-                            <Link onClick={this.onCustomerRegistrationClick}>Pharmacy Registration</Link>
+                            <Link onClick={this.onPharmacyRegistrationClick}>Pharmacy Registration</Link>
                         </div>
 
                     </div>

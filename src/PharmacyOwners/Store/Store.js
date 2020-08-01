@@ -13,7 +13,11 @@ class Store extends Component {
         medicineList:[],
         medicineWithDetails:[],
         selectedMedicineTOAdd: null,
-        selectedMedicineAmountToAdd: null
+        selectedMedicineAmountToAdd: null,
+
+
+        selectedValue:null,
+        selectedID:null
     }
 
     componentDidMount() {
@@ -31,6 +35,40 @@ class Store extends Component {
         this.setState({
             selectedMedicineAmountToAdd: event.target.value
         });
+    }
+    onChangeAmount =(event,id)=>{
+        this.setState({
+            selectedValue:event.target.value,
+            selectedID:id
+        })
+        //console.log(event.target.value +""+id);
+    }
+    onClickDelete = (id)=>{
+        this.setState({
+            loading:true
+        });
+        axiosDB.delete(`pharmacyMedicine/${id}.json`)
+        .then((res)=>{
+            console.log(res);
+            this.fetchMedicine();
+        }).catch((err)=>{
+            console.log(err);
+        })
+        //console.log(`pharmacyMedicine/${id}.json`);
+    }
+
+    onClickUpdate=(id)=>{
+        let ob = {
+            availableAmount:this.state.selectedValue
+        };
+        console.log(id)
+        axiosDB.patch(`pharmacyMedicine/${id}.json`,ob)
+        .then((res)=>{
+            console.log(res);
+            this.fetchMedicine();
+        }).catch((err)=>{
+            console.log(err);
+        })
     }
     onAddButtonClick = (e) => {
         e.preventDefault();
@@ -187,7 +225,7 @@ class Store extends Component {
 
                 </form>
 
-                <Table medicineList={this.state.medicineWithDetails}/>
+                <Table medicineList={this.state.medicineWithDetails} delete={this.onClickDelete} onChangeAmount={this.onChangeAmount} onClickUpdate={this.onClickUpdate} updateFieldValue={this.state.selectedValue}/>
             </div>
 
         );
