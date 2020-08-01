@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './PharmacyOwners/Home';
 import Customers from './Customers/Customers';
 import DataInput from './Direct Data Input/DataInput';
+import CustomerRegistration from './Customers/Registration/CustomerRegistration';
+import PharmacyRegistration from './PharmacyOwners/Registration/PharmacyRegistration';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/datainput" component={DataInput} />
           <Route path="/adminhome" component={Home} />
           <Route path="/customer" component={Customers } />
+          <Route path="/customerregistration" component={CustomerRegistration } />
+          <Route path="/pharmacyregistration" component={PharmacyRegistration } />
           <Route path="/" component={SignIn} />
         </Switch>
 

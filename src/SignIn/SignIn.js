@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { axiosDB } from "../Axios/Axios";
+import { Link } from "react-router-dom";
 //import './SignIn.css';
 
 class SignIn extends Component {
@@ -23,6 +24,12 @@ class SignIn extends Component {
 
 
         //this.props.history.push("/adminhome");
+    }
+    onCustomerRegistrationClick=()=>{
+        this.props.history.push("/customerregistration");
+    }
+    onCustomerRegistrationClick=()=>{
+        this.props.history.push("/pharmacyregistration");
     }
     onEmailChange = (event) => {
         this.setState({
@@ -114,7 +121,9 @@ class SignIn extends Component {
 
 
                         <div id="formFooter">
-                            <a className="underlineHover" >Forgot Password?</a>
+                            <Link onClick={this.onCustomerRegistrationClick}>Customer Registration</Link>
+                            <br />
+                            <Link onClick={this.onCustomerRegistrationClick}>Pharmacy Registration</Link>
                         </div>
 
                     </div>
