@@ -10,6 +10,8 @@ class MyOrders extends Component {
         orderList: []
     }
 
+
+
     componentDidMount() {
 
         this.fetchOrders();
@@ -52,6 +54,7 @@ class MyOrders extends Component {
                             })}
                             
                         <h3>Rs {order.totalPrice} /=</h3>
+                        <button className="btn btn-success">{order.type==="p"?"Pending":"Accepted"}</button>
                         </a>);
                     })}
 

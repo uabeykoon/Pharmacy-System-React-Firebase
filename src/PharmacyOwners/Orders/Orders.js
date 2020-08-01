@@ -8,6 +8,13 @@ class Orders extends Component {
         orderList: []
     }
 
+    statuspending ={
+        color:'red'
+    };
+    statusaccepted ={
+        color:'blue'
+    };
+
 
     componentDidMount() {
         this.fetchOrders();
@@ -66,6 +73,19 @@ class Orders extends Component {
         return array.find((ob) => ob.id === id)
     }
 
+    onClickAcceptOrder = (id)=>{
+        let ob ={
+            type:"a"
+        };
+        axiosDB.patch(`order/${id}.json`,ob)
+        .then((res)=>{
+            console.log(res);
+            this.fetchOrders()
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+
 
     render() {
         return (
@@ -76,7 +96,7 @@ class Orders extends Component {
                             <div className="d-flex w-100">
 
 
-                                <h5 className="mb-1">Order</h5>
+                                <h5 className="mb-1" style={order.type==="p"?this.statuspending:this.statusaccepted}>{order.type==="p"?"Pending":"Accepted"} Order</h5>
 
                             </div>
                             {order.medicines.map((medicine) => {
@@ -89,6 +109,7 @@ class Orders extends Component {
                         <p>{order.customerID.customerName}</p>
                         <p>{order.customerID.customerAddress}</p>
                         <p>{order.customerID.customerContactNumber}</p>
+                        <button className="btn btn-success" onClick={()=>this.onClickAcceptOrder(order.id)}>{order.type==="p"?" Click to Accept Request":"Accepted"}</button>
                         </a>);
                     })}
 

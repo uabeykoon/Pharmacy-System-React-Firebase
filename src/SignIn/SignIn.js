@@ -9,7 +9,15 @@ class SignIn extends Component {
     state = {
         email: null,
         password: null,
-        type: null
+        type: null,
+        errorMessage:false
+    };
+
+    formStyle= {
+        width:"40%",
+        textAlign:"center",
+        margin:"0 auto",
+        marginTop:"100px"
     };
 
     onSignInClick = (e) => {
@@ -25,10 +33,10 @@ class SignIn extends Component {
 
         //this.props.history.push("/adminhome");
     }
-    onCustomerRegistrationClick=()=>{
+    onCustomerRegistrationClick = () => {
         this.props.history.push("/customerregistration");
     }
-    onPharmacyRegistrationClick=()=>{
+    onPharmacyRegistrationClick = () => {
         this.props.history.push("/pharmacyregistration");
     }
     onEmailChange = (event) => {
@@ -74,11 +82,16 @@ class SignIn extends Component {
                         }).catch((error) => {
                             console.log(error)
                         });
-                } else if(this.state.type===null || this.state.type ==="0"){
-                    console.log("select type");
+                } else if (this.state.type === null || this.state.type === "0") {
+                    this.setState({
+                        errorMessage:true
+                    });
                 }
 
             }).catch((err) => {
+                this.setState({
+                    errorMessage:true
+                });
                 console.log("invalid username and passsword");
             })
     }
@@ -100,34 +113,48 @@ class SignIn extends Component {
     }
 
     render() {
+
+
+
+        const errorMessage = this.state.errorMessage?(<div class="alert alert-danger" role="alert">
+        Input are invalid
+      </div>):null;
+    
         return (
             <>
-                <div className="wrapper fadeInDown">
-                    <div id="formContent">
+
+                <div style={this.formStyle}>
 
 
-                        <h2 className="inactive underlineHover">Sign In </h2>
+                    <h2 className="inactive underlineHover">Sign In </h2>
+                    {errorMessage}
 
-                        <form onSubmit={this.onSignInClick}>
-                            <input type="email" placeholder="email" onChange={this.onEmailChange} required />
-                            <input type="text" placeholder="password" onChange={this.onPasswordChange} required />
-                            <select onChange={this.onTypeChange} required>
+                    <form onSubmit={this.onSignInClick}>
+                        <div class="form-group">
+                            <input type="email" className="form-control" placeholder="email" onChange={this.onEmailChange} required />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" className="form-control" placeholder="password" onChange={this.onPasswordChange} required />
+                        </div>
+                        <div class="form-group">
+                            <select onChange={this.onTypeChange} className="form-control" required>
                                 <option value="0">Select Type</option>
                                 <option value="p">Pharmacy</option>
                                 <option value="c">Customers</option>
                             </select>
-                            <button type="submit">Sign in</button>
-                        </form>
-
-
-                        <div id="formFooter">
-                            <Link onClick={this.onCustomerRegistrationClick}>Customer Registration</Link>
-                            <br />
-                            <Link onClick={this.onPharmacyRegistrationClick}>Pharmacy Registration</Link>
                         </div>
+                        <button type="submit" className="btn btn-primary">Sign in</button>
+                    </form>
 
+
+                    <div id="formFooter">
+                        <Link onClick={this.onCustomerRegistrationClick}>Customer Registration</Link>
+                        <br />
+                        <Link onClick={this.onPharmacyRegistrationClick}>Pharmacy Registration</Link>
                     </div>
+
                 </div>
+
             </>
         );
     }

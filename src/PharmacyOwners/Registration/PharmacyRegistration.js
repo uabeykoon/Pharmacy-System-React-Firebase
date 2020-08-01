@@ -11,6 +11,14 @@ class PharmacyRegistration extends Component {
         pharmacyLocation: null,
         pharmacyEmail: null,
         pharmacyPassword: null,
+        errorMessage:false
+    };
+
+    formStyle= {
+        width:"40%",
+        
+        margin:"0 auto",
+        marginTop:"100px"
     };
 
 
@@ -69,25 +77,42 @@ class PharmacyRegistration extends Component {
     }
 
     render() {
+
+        const errorMessage = this.state.errorMessage?(<div class="alert alert-danger" role="alert">
+        Input are invalid
+      </div>):null;
+
+
         return (
             <>
-                <h1>Pharmacy Registration</h1>
-                <form onSubmit={this.onInputPharmacyClick}>
-                    <label>Name</label>
-                    <input type="text" onChange={this.onChangePharmacyName} required />
-                    <br />
-                    <label>Location</label>
-                    <input type="text" onChange={this.onChangePharmacyLocation} required />
-                    <br />
-                    <label>Email</label>
-                    <input type="email" onChange={this.onChangePharmacyEmail} required />
-                    <br />
-                    <label>password</label>
-                    <input type="password" minLength="6" onChange={this.onChangePharmacyPassword} required />
-                    <br />
-                    <input type="submit" value="Register" />
-                    <input type="button" value="cancel" />
-                </form>
+                <div style={this.formStyle}>
+                    <h1>Pharmacy Registration</h1>
+                    <form onSubmit={this.onInputPharmacyClick}>
+                        <div className="form-group">
+                            <label>Name</label>
+                            <input type="text" className="form-control" onChange={this.onChangePharmacyName} required />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Location</label>
+                            <input type="text" className="form-control" onChange={this.onChangePharmacyLocation} required />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input type="email" className="form-control" onChange={this.onChangePharmacyEmail} required />
+                        </div>
+
+                        <div className="form-group">
+                            <label>password</label>
+                            <input type="password" className="form-control" minLength="6" onChange={this.onChangePharmacyPassword} required />
+                        </div>
+
+                        <input className="btn btn-primary" type="submit" value="Register" />|
+                        <input className="btn btn-danger" type="button" value="cancel" />
+                    </form>
+                </div>
+
             </>
 
         );
