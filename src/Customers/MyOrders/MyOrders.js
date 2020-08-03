@@ -22,13 +22,22 @@ class MyOrders extends Component {
         axiosDB.get(`order.json?orderBy="customerID"&equalTo="${localStorage.getItem("id")}"`)
             .then((res) => {
                 axiosDB.get("pharmacy.json")
-                    .then((customer) => {
+                    .then((pharmacy) => {
 
+
+
+                        let orderList = this.convertObjectToArray(res.data);
+                        let pharmacyList = this.convertObjectToArray(pharmacy.data);
+                        let combinedOrder = this.combinePharmacyDetailsOrders(orderList, pharmacyList);
+
+                        console.log(combinedOrder)
 
                         this.setState({
-                            orderList: this.convertObjectToArray(res.data)
+                            orderList: combinedOrder
                         });
-                        
+
+
+
                         // let fullOrder = this.convertObjectToArray(res.data);
                         // let fullPharmacy = this.convertObjectToArray(customer.data);
                         // let filteredOrder = this.filterOrderAccordingToPharmacy(fullOrder);
@@ -59,10 +68,10 @@ class MyOrders extends Component {
     }
 
 
-    combineCustomerDetailsOrders = (orderArray, customerArray) => {
+    combinePharmacyDetailsOrders = (orderArray, pharmacyList) => {
         let newArray = [];
         for (let order of orderArray) {
-            newArray.push({ ...order, customerID: this.findObject(customerArray, order.customerID) });
+            newArray.push({ ...order, pharmacyID: this.findObject(pharmacyList, order.pharmacyID) });
         }
         return newArray;
     }
@@ -80,15 +89,22 @@ class MyOrders extends Component {
                         return (<a className="list-group-item list-group-item-action flex-column align-items-start" key={order.id}>
                             <div className="d-flex w-100 justify-content-between">
                                 <h5 className="mb-1">Order</h5>
-                               
+                                <div>
+                                <h3>{order.pharmacyID.pharmacyName} Pharmacy - {order.pharmacyID.pharmacyLocation}</h3>
+                    {/* <p>{order.pharmacyID.pharmacyAddress}</p> */}
+                                </div>
+                    
+
                             </div>
-                            {order.medicines.map((medicine)=>{
+                            {order.medicines.map((medicine) => {
                                 return (<p className="mb-1" key={medicine.medicineID.id}>{medicine.medicineID.name}({medicine.medicineID.dose}mg) - {medicine.amount}(Tablet)</p>);
                             })}
-                            
-                        <h3>Rs {order.totalPrice} /=</h3>
-                        <button className="btn btn-success">{order.type==="p"?"Pending":"Accepted"}</button>
-                        </a>);
+
+                            <h3>Rs {order.totalPrice} /=</h3>
+                            <button className="btn btn-success">{order.type === "p" ? "Pending" : "Accepted"}</button>
+                        </a>
+
+                        );
                     })}
 
 

@@ -119,7 +119,8 @@ class Buy extends Component {
                 pharmacyID: this.state.selectedPharmacy,
                 medicines: this.state.purchasingList,
                 totalPrice: this.calculateTotalPrice(this.state.purchasingList),
-                type: "p"
+                type: "p",
+                date:new Date(),
             };
             this.addOrder(object)
                 .then((res) => {

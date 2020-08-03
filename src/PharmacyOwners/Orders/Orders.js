@@ -8,11 +8,11 @@ class Orders extends Component {
         orderList: []
     }
 
-    statuspending ={
-        color:'red'
+    statuspending = {
+        color: 'red'
     };
-    statusaccepted ={
-        color:'green'
+    statusaccepted = {
+        color: 'green'
     };
 
 
@@ -29,7 +29,7 @@ class Orders extends Component {
             .then((res) => {
                 axiosDB.get("customer.json")
                     .then((customer) => {
-                        
+
                         let fullOrder = this.convertObjectToArray(res.data);
                         let fullPharmacy = this.convertObjectToArray(customer.data);
                         let filteredOrder = this.filterOrderAccordingToPharmacy(fullOrder);
@@ -64,8 +64,8 @@ class Orders extends Component {
 
     }
 
-    filterOrderAccordingTOStatus =(array)=>{
-        let newArray = array.filter((order) => order.type === "p" || order.type==="a");
+    filterOrderAccordingTOStatus = (array) => {
+        let newArray = array.filter((order) => order.type === "p" || order.type === "a");
         console.log(newArray)
         return newArray;
     }
@@ -82,43 +82,43 @@ class Orders extends Component {
         return array.find((ob) => ob.id === id)
     }
 
-    onClickAcceptOrder = (id)=>{
-        let ob ={
-            type:"a"
+    onClickAcceptOrder = (id) => {
+        let ob = {
+            type: "a"
         };
-        axiosDB.patch(`order/${id}.json`,ob)
-        .then((res)=>{
-            console.log(res);
-            this.fetchOrders()
-        }).catch((err)=>{
-            console.log(err);
-        });
+        axiosDB.patch(`order/${id}.json`, ob)
+            .then((res) => {
+                console.log(res);
+                this.fetchOrders()
+            }).catch((err) => {
+                console.log(err);
+            });
     }
 
-    onClickCompleteOrder = (id)=>{
-        let ob ={
-            type:"c"
+    onClickCompleteOrder = (id) => {
+        let ob = {
+            type: "c"
         };
-        axiosDB.patch(`order/${id}.json`,ob)
-        .then((res)=>{
-            console.log(res);
-            this.fetchOrders()
-        }).catch((err)=>{
-            console.log(err);
-        });
+        axiosDB.patch(`order/${id}.json`, ob)
+            .then((res) => {
+                console.log(res);
+                this.fetchOrders()
+            }).catch((err) => {
+                console.log(err);
+            });
     }
 
-    onClickRejectOrder = (id)=>{
-        let ob ={
-            type:"r"
+    onClickRejectOrder = (id) => {
+        let ob = {
+            type: "r"
         };
-        axiosDB.patch(`order/${id}.json`,ob)
-        .then((res)=>{
-            console.log(res);
-            this.fetchOrders()
-        }).catch((err)=>{
-            console.log(err);
-        });
+        axiosDB.patch(`order/${id}.json`, ob)
+            .then((res) => {
+                console.log(res);
+                this.fetchOrders()
+            }).catch((err) => {
+                console.log(err);
+            });
     }
 
 
@@ -128,24 +128,34 @@ class Orders extends Component {
                 <div className="list-group">
                     {this.state.orderList.map((order) => {
                         return (<a className="list-group-item list-group-item-action flex-column align-items-start" key={order.id}>
-                            <div className="d-flex w-100">
+                            <div className="d-flex w-100 justify-content-between">
+
+                                <div>
+                                    <h3 className="mb-1" style={order.type === "p" ? this.statuspending : this.statusaccepted}>{order.type === "p" ? "Pending" : "Accepted"} Order</h3>
+                                    {order.medicines.map((medicine) => {
+                                        return (<p className="mb-1" key={medicine.medicineID.id}><b>{medicine.medicineID.name}({medicine.medicineID.dose}mg) - {medicine.amount}(Tablet)</b></p>);
+                                    })}
+
+                                    <h3>Rs {order.totalPrice} /=</h3>
 
 
-                                <h3 className="mb-1" style={order.type==="p"?this.statuspending:this.statusaccepted}>{order.type==="p"?"Pending":"Accepted"} Order</h3>
+                                    <button className="btn btn-success" onClick={() => this.onClickAcceptOrder(order.id)}>{order.type === "p" ? " Click to Accept Request" : "Accepted"}</button>|
+                            <button className="btn btn-primary" onClick={() => this.onClickCompleteOrder(order.id)}>{order.type === "a" || order.type === "p" ? " Click to Complete Request" : "Completed"}</button>|
+                            <button className="btn btn-danger" onClick={() => this.onClickRejectOrder(order.id)}>{order.type === "a" || order.type === "p" ? " Click to Reject Request" : "Deleted"}</button>
+                                </div>
+
+
+
+
+                                <div>
+                                    <h3>Customer Details</h3>
+                                    <p>{order.customerID.customerName}<br />
+                                        {order.customerID.customerAddress}<br />
+                                        {order.customerID.customerContactNumber}</p>
+                                </div>
 
                             </div>
-                            {order.medicines.map((medicine) => {
-                                return (<p className="mb-1" key={medicine.medicineID.id}><b>{medicine.medicineID.name}({medicine.medicineID.dose}mg) - {medicine.amount}(Tablet)</b></p>);
-                            })}
 
-                            <h3>Rs {order.totalPrice} /=</h3>
-                            <h3>Customer Details</h3>
-                        <p>{order.customerID.customerName}<br />
-                        {order.customerID.customerAddress}<br />
-                        {order.customerID.customerContactNumber}</p>
-                        <button className="btn btn-success" onClick={()=>this.onClickAcceptOrder(order.id)}>{order.type==="p"?" Click to Accept Request":"Accepted"}</button>|
-                        <button className="btn btn-primary" onClick={()=>this.onClickCompleteOrder(order.id)}>{order.type==="a" || order.type==="p"?" Click to Complete Request":"Completed"}</button>|
-                        <button className="btn btn-danger" onClick={()=>this.onClickRejectOrder(order.id)}>{order.type==="a"||order.type==="p"?" Click to Reject Request":"Deleted"}</button>
                         </a>);
                     })}
 
