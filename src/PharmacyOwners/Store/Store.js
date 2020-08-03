@@ -39,10 +39,9 @@ class Store extends Component {
             selectedMedicineAmountToAdd: event.target.value
         });
     }
-    onChangeAmount = (event, id) => {
+    onChangeAmount = (event) => {
         this.setState({
-            selectedValue: event.target.value,
-            selectedID: id
+            selectedValue: event.target.value
         })
         //console.log(event.target.value +""+id);
     }

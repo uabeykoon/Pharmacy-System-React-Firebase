@@ -9,6 +9,7 @@ class PharmacyRegistration extends Component {
     state = {
         pharmacyName: null,
         pharmacyLocation: null,
+        pharmacyContactNumber:null,
         pharmacyEmail: null,
         pharmacyPassword: null,
         errorMessage:false
@@ -35,6 +36,11 @@ class PharmacyRegistration extends Component {
             pharmacyLocation: event.target.value
         });
     }
+    onChangePharmacyContactNumber = (event) => {
+        this.setState({
+            pharmacyContactNumber: event.target.value
+        });
+    }
     onChangePharmacyEmail = (event) => {
         this.setState({
             pharmacyEmail: event.target.value
@@ -50,6 +56,7 @@ class PharmacyRegistration extends Component {
         let object = {
             pharmacyName: this.state.pharmacyName,
             pharmacyLocation: this.state.pharmacyLocation,
+            pharmacyContactNumber:this.state.pharmacyContactNumber,
             pharmacyEmail: this.state.pharmacyEmail,
             type: "pharmacy"
         };
@@ -100,6 +107,11 @@ class PharmacyRegistration extends Component {
                         <div className="form-group">
                             <label>Location</label>
                             <input type="text" className="form-control" onChange={this.onChangePharmacyLocation} required />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Contact Number</label>
+                            <input type="text" className="form-control" onChange={this.onChangePharmacyContactNumber} required />
                         </div>
 
                         <div className="form-group">

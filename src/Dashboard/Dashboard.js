@@ -4,6 +4,8 @@ import { axiosDB } from "../Axios/Axios";
 import { Link, NavLink, Route, Switch } from "react-router-dom";
 import ManageMedicine from "./MangeMedicine/ManageMedicine";
 import Dash from "./Dash/Dash";
+import PharmacyDash from "./PharmacyDash/PharmacyDash";
+import CustomerDash from "./CustomerDash/CustomerDash";
 //import './SignIn.css';
 
 class Dashboard extends Component {
@@ -42,6 +44,8 @@ class Dashboard extends Component {
                         <Switch>
                             <Route path={this.props.match.url + "/managemedicine"} component={ManageMedicine}></Route>
                             <Route path={this.props.match.url + "/dash"} component={Dash}></Route>
+                            <Route path={this.props.match.url + "/pharmacydash"} component={PharmacyDash}></Route>
+                            <Route path={this.props.match.url + "/customerdash"} component={CustomerDash}></Route>
                         </Switch>
 
                     </div>
