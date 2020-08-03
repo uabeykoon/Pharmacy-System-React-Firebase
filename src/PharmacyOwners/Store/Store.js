@@ -10,18 +10,21 @@ class Store extends Component {
         addButtonDisable: false,
         validateErrorMessage: false,
         allmedicineList: [],
-        medicineList:[],
-        medicineWithDetails:[],
+        medicineList: [],
+        medicineWithDetails: [],
         selectedMedicineTOAdd: null,
         selectedMedicineAmountToAdd: null,
+        pharmacyName: '',
+        pharmacyLocation: '',
 
 
-        selectedValue:null,
-        selectedID:null
+        selectedValue: null,
+        selectedID: null
     }
 
     componentDidMount() {
         this.fetchMedicine();
+        this.fetchPharmacy();
     }
 
     onChangeMedicineToAdd = (event) => {
@@ -36,39 +39,39 @@ class Store extends Component {
             selectedMedicineAmountToAdd: event.target.value
         });
     }
-    onChangeAmount =(event,id)=>{
+    onChangeAmount = (event, id) => {
         this.setState({
-            selectedValue:event.target.value,
-            selectedID:id
+            selectedValue: event.target.value,
+            selectedID: id
         })
         //console.log(event.target.value +""+id);
     }
-    onClickDelete = (id)=>{
+    onClickDelete = (id) => {
         this.setState({
-            loading:true
+            loading: true
         });
         axiosDB.delete(`pharmacyMedicine/${id}.json`)
-        .then((res)=>{
-            console.log(res);
-            this.fetchMedicine();
-        }).catch((err)=>{
-            console.log(err);
-        })
+            .then((res) => {
+                //console.log(res);
+                this.fetchMedicine();
+            }).catch((err) => {
+                console.log(err);
+            })
         //console.log(`pharmacyMedicine/${id}.json`);
     }
 
-    onClickUpdate=(id)=>{
+    onClickUpdate = (id) => {
         let ob = {
-            availableAmount:this.state.selectedValue
+            availableAmount: this.state.selectedValue
         };
         console.log(id)
-        axiosDB.patch(`pharmacyMedicine/${id}.json`,ob)
-        .then((res)=>{
-            console.log(res);
-            this.fetchMedicine();
-        }).catch((err)=>{
-            console.log(err);
-        })
+        axiosDB.patch(`pharmacyMedicine/${id}.json`, ob)
+            .then((res) => {
+                console.log(res);
+                this.fetchMedicine();
+            }).catch((err) => {
+                console.log(err);
+            })
     }
     onAddButtonClick = (e) => {
         e.preventDefault();
@@ -105,6 +108,19 @@ class Store extends Component {
         }
     }
 
+    fetchPharmacy = () => {
+        console.log(localStorage.getItem("id"));
+        axiosDB.get(`pharmacy/${localStorage.getItem("id")}.json`)
+            .then((res) => {
+                this.setState({
+                    pharmacyName:res.data.pharmacyName,
+                    pharmacyLocation:res.data.pharmacyLocation
+                });
+            }).catch((err) => {
+                console.log(err);
+            })
+    }
+
 
 
 
@@ -137,17 +153,17 @@ class Store extends Component {
                     .then((medicine) => {
                         this.setState({
                             loading: false,
-                            medicineList:this.convertObjectToArray(medicine.data),
+                            medicineList: this.convertObjectToArray(medicine.data),
                             allmedicineList: this.convertObjectToArray(allMedicine.data)
-                           
+
                         });
                         this.setState({
-                            medicineWithDetails:this.combineMedicineDetails()
+                            medicineWithDetails: this.combineMedicineDetails()
                         })
                         //console.log(this.combineMedicineDetails());
 
-                        
-                    }).catch((err)=>{
+
+                    }).catch((err) => {
                         console.log(err);
                     })
 
@@ -168,18 +184,18 @@ class Store extends Component {
         }
         return newArray;
     }
-    
-    combineMedicineDetails =() =>{
-        let array=[];
-        for(let med of this.state.medicineList){
-            array.push({...med,medicineID:this.findRelatedObject(this.state.allmedicineList,med.medicineID)});
+
+    combineMedicineDetails = () => {
+        let array = [];
+        for (let med of this.state.medicineList) {
+            array.push({ ...med, medicineID: this.findRelatedObject(this.state.allmedicineList, med.medicineID) });
         }
         //console.log(array);
         return array;
     }
 
-    findRelatedObject = (array,id) =>{
-        return array.find((ob)=>ob.id===id);
+    findRelatedObject = (array, id) => {
+        return array.find((ob) => ob.id === id);
     }
 
 
@@ -200,6 +216,7 @@ class Store extends Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-6">
+                        <h2>{this.state.pharmacyName} Pharmacy - {this.state.pharmacyLocation}</h2>
                         <br />
                         {spinner}
                     </div>
@@ -208,24 +225,27 @@ class Store extends Component {
                 <form onSubmit={this.onAddButtonClick}><br />
                     {validateErrorMessage}
 
-                    <label>Medicine</label>
-                    <select onChange={this.onChangeMedicineToAdd} required>
-                        <option value={0}>Select Medicine</option>
-                        {this.state.allmedicineList.map((medicine) => {
-                            return (<option key={medicine.id} value={medicine.id}>{medicine.name} - {medicine.dose}mg</option>);
-                        })}
+                    <div className="form-group">
+                        <label>Medicine</label>
+                        <select onChange={this.onChangeMedicineToAdd} className="form-control" required>
+                            <option value={0}>Select Medicine</option>
+                            {this.state.allmedicineList.map((medicine) => {
+                                return (<option key={medicine.id} value={medicine.id}>{medicine.name} - {medicine.dose}mg</option>);
+                            })}
 
-                    </select>
-                    <br />
-
-                    <label>Available Tablet</label>
-                    <input type="text" onChange={this.onChangeMedicineAmountAdd} required />
-                    <br />
-                    <input type="submit" value="ADD" disabled={this.state.addButtonDisable} />
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Available Tablet</label>
+                        <input type="text" className="form-control" onChange={this.onChangeMedicineAmountAdd} required />
+                    </div>
+                    <input type="submit" className="btn btn-primary" value="ADD MEDICINE TO STORE" disabled={this.state.addButtonDisable} />
 
                 </form>
 
-                <Table medicineList={this.state.medicineWithDetails} delete={this.onClickDelete} onChangeAmount={this.onChangeAmount} onClickUpdate={this.onClickUpdate} updateFieldValue={this.state.selectedValue}/>
+                <br />
+
+                <Table medicineList={this.state.medicineWithDetails} delete={this.onClickDelete} onChangeAmount={this.onChangeAmount} onClickUpdate={this.onClickUpdate} updateFieldValue={this.state.selectedValue} />
             </div>
 
         );

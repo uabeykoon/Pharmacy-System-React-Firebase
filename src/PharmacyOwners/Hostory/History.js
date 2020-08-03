@@ -1,8 +1,9 @@
-import React, { Component } from "react";
-import { NavLink, Route, Switch } from "react-router-dom";
-import { axiosDB } from "../../Axios/Axios";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router';
+import { axiosDB } from '../../Axios/Axios';
 
-class Orders extends Component {
+class OrderHistory extends Component{
+    
 
     state = {
         orderList: []
@@ -12,7 +13,7 @@ class Orders extends Component {
         color:'red'
     };
     statusaccepted ={
-        color:'green'
+        color:'blue'
     };
 
 
@@ -33,11 +34,11 @@ class Orders extends Component {
                         let fullOrder = this.convertObjectToArray(res.data);
                         let fullPharmacy = this.convertObjectToArray(customer.data);
                         let filteredOrder = this.filterOrderAccordingToPharmacy(fullOrder);
-                        let filterOrderNotCompleted = this.filterOrderAccordingTOStatus(filteredOrder);
+                        let filterOrderCompleted = this.filterOrderAccordingTOStatus(filteredOrder);
                         //console.log(filteredOrder);
 
                         this.setState({
-                            orderList: this.combineCustomerDetailsOrders(filterOrderNotCompleted, fullPharmacy)
+                            orderList: this.combineCustomerDetailsOrders(filterOrderCompleted, fullPharmacy)
                         });
                     }).catch((err) => {
                         console.log(err);
@@ -58,17 +59,18 @@ class Orders extends Component {
 
     filterOrderAccordingToPharmacy = (array) => {
         let newArray = array.filter((order) => order.pharmacyID === localStorage.getItem("id"));
-        console.log(newArray)
-        console.log(localStorage.getItem("id"))
+        //console.log(newArray)
+        //console.log(localStorage.getItem("id"))
         return newArray;
 
     }
 
     filterOrderAccordingTOStatus =(array)=>{
-        let newArray = array.filter((order) => order.type === "p" || order.type==="a");
+        let newArray = array.filter((order) => order.type === "c");
         console.log(newArray)
         return newArray;
     }
+
     combineCustomerDetailsOrders = (orderArray, customerArray) => {
         let newArray = [];
         for (let order of orderArray) {
@@ -108,19 +110,6 @@ class Orders extends Component {
         });
     }
 
-    onClickRejectOrder = (id)=>{
-        let ob ={
-            type:"r"
-        };
-        axiosDB.patch(`order/${id}.json`,ob)
-        .then((res)=>{
-            console.log(res);
-            this.fetchOrders()
-        }).catch((err)=>{
-            console.log(err);
-        });
-    }
-
 
     render() {
         return (
@@ -131,7 +120,7 @@ class Orders extends Component {
                             <div className="d-flex w-100">
 
 
-                                <h3 className="mb-1" style={order.type==="p"?this.statuspending:this.statusaccepted}>{order.type==="p"?"Pending":"Accepted"} Order</h3>
+                                <h5 className="mb-1" style={order.type==="p"?this.statuspending:this.statusaccepted}>Completed Order</h5>
 
                             </div>
                             {order.medicines.map((medicine) => {
@@ -139,13 +128,13 @@ class Orders extends Component {
                             })}
 
                             <h3>Rs {order.totalPrice} /=</h3>
+                            <div className="pull-right">abc</div>
                             <h3>Customer Details</h3>
-                        <p>{order.customerID.customerName}<br />
+                            <p>{order.customerID.customerName}<br />
                         {order.customerID.customerAddress}<br />
                         {order.customerID.customerContactNumber}</p>
-                        <button className="btn btn-success" onClick={()=>this.onClickAcceptOrder(order.id)}>{order.type==="p"?" Click to Accept Request":"Accepted"}</button>|
-                        <button className="btn btn-primary" onClick={()=>this.onClickCompleteOrder(order.id)}>{order.type==="a" || order.type==="p"?" Click to Complete Request":"Completed"}</button>|
-                        <button className="btn btn-danger" onClick={()=>this.onClickRejectOrder(order.id)}>{order.type==="a"||order.type==="p"?" Click to Reject Request":"Deleted"}</button>
+                        <button className="btn btn-primary">Completed</button>|
+
                         </a>);
                     })}
 
@@ -157,4 +146,4 @@ class Orders extends Component {
     }
 }
 
-export default Orders;
+export default withRouter(OrderHistory);

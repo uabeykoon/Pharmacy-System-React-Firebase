@@ -3,6 +3,7 @@ import { NavLink, Route, Switch, Redirect } from "react-router-dom";
 import Store from "./Store/Store";
 import Orders from "./Orders/Orders";
 import './Home.css';
+import OrderHistory from "./Hostory/History";
 
 class Home extends Component {
 
@@ -13,13 +14,14 @@ class Home extends Component {
 
 
     render() {
-        console.log(this.props.match.url + "/store");
+        //console.log(this.props.match.url + "/store");
         return (
             <div>
                 <div>
                     <ul>
                         <li><NavLink to={this.props.match.url + "/store"} >Store</NavLink></li>
                         <li><NavLink to={this.props.match.url + "/orders"}>Orders</NavLink></li>
+                        <li><NavLink to={this.props.match.url + "/history"}>History</NavLink></li>
                         <li><a onClick={this.onLogoutClick}><span className="logout">Log out</span></a></li>
                     </ul>
                 </div>
@@ -27,6 +29,7 @@ class Home extends Component {
                     <Switch>
                         <Route path={this.props.match.url + "/store"} component={Store} />
                         <Route path={this.props.match.url + "/orders"} component={Orders} />
+                        <Route path={this.props.match.url + "/history"} component={OrderHistory} />
                     </Switch>
 
                 </div>

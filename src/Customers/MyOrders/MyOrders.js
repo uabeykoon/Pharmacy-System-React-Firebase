@@ -21,10 +21,30 @@ class MyOrders extends Component {
         //console.log(localStorage.getItem("id"))
         axiosDB.get(`order.json?orderBy="customerID"&equalTo="${localStorage.getItem("id")}"`)
             .then((res) => {
+                axiosDB.get("pharmacy.json")
+                    .then((customer) => {
+
+
+                        this.setState({
+                            orderList: this.convertObjectToArray(res.data)
+                        });
+                        
+                        // let fullOrder = this.convertObjectToArray(res.data);
+                        // let fullPharmacy = this.convertObjectToArray(customer.data);
+                        // let filteredOrder = this.filterOrderAccordingToPharmacy(fullOrder);
+                        // let filterOrderNotCompleted = this.filterOrderAccordingTOStatus(filteredOrder);
+                        // //console.log(filteredOrder);
+
+                        // this.setState({
+                        //     orderList: this.combineCustomerDetailsOrders(filterOrderNotCompleted, fullPharmacy)
+                        // });
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+
+
                 //console.log(res.data);
-                this.setState({
-                    orderList: this.convertObjectToArray(res.data)
-                });
+
             }).catch((err) => {
                 console.log(err);
             })
@@ -36,6 +56,19 @@ class MyOrders extends Component {
             newArray.push({ ...incomingObject[key], id: key });
         }
         return newArray;
+    }
+
+
+    combineCustomerDetailsOrders = (orderArray, customerArray) => {
+        let newArray = [];
+        for (let order of orderArray) {
+            newArray.push({ ...order, customerID: this.findObject(customerArray, order.customerID) });
+        }
+        return newArray;
+    }
+
+    findObject = (array, id) => {
+        return array.find((ob) => ob.id === id)
     }
 
 

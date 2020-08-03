@@ -130,13 +130,13 @@ class SignIn extends Component {
                     {errorMessage}
 
                     <form onSubmit={this.onSignInClick}>
-                        <div class="form-group">
+                        <div className="form-group">
                             <input type="email" className="form-control" placeholder="email" onChange={this.onEmailChange} required />
                         </div>
-                        <div class="form-group">
-                            <input type="text" className="form-control" placeholder="password" onChange={this.onPasswordChange} required />
+                        <div className="form-group">
+                            <input type="password" className="form-control" placeholder="password" onChange={this.onPasswordChange} required />
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <select onChange={this.onTypeChange} className="form-control" required>
                                 <option value="0">Select Type</option>
                                 <option value="p">Pharmacy</option>
@@ -148,9 +148,9 @@ class SignIn extends Component {
 
 
                     <div id="formFooter">
-                        <Link onClick={this.onCustomerRegistrationClick}>Customer Registration</Link>
+                        <Link to="/customerregistration">Customer Registration</Link>
                         <br />
-                        <Link onClick={this.onPharmacyRegistrationClick}>Pharmacy Registration</Link>
+                        <Link to="/pharmacyregistration">Pharmacy Registration</Link>
                     </div>
 
                 </div>

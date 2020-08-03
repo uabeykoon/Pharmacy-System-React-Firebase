@@ -5,9 +5,9 @@ import TableCus from "./TableCus/TableCus";
 class Buy extends Component {
 
     state = {
-        customerID:null,
+        customerID: null,
         loading: false,
-        validateErrorMessage:false,
+        validateErrorMessage: false,
         disableMedicine: false,
         pharmacies: [],
         selectedPharmacy: null,
@@ -19,10 +19,23 @@ class Buy extends Component {
         purchasingList: []
     };
 
+    formStyle = {
+        width: "60%",
+        textAlign: "center",
+        margin: "0 auto",
+        marginTop: "10px"
+    };
+
+    lineStyle = {
+        borderLeft: "6px solid black",
+        height: "500px",
+        marginTop:"10px"
+    };
+
 
     componentDidMount() {
         this.setState({
-            customerID:localStorage.getItem("id")
+            customerID: localStorage.getItem("id")
         })
         this.fetchPharmacy();
         //this.fetchMedicine();
@@ -32,7 +45,7 @@ class Buy extends Component {
         this.setState({
             loading: true,
             selectedPharmacy: event.target.value,
-            purchasingList:[]
+            purchasingList: []
         });
         this.fetchMedicine();
         //console.log(event.target.value);
@@ -57,27 +70,27 @@ class Buy extends Component {
 
         //console.log(obj)
 
-        if(this.state.selectedAmount==="0" || this.state.selectedAmount===null || this.state.selectedPharmacy==="0" || this.state.selectedPharmacy===null || this.state.selectedMedicine==="0" || this.state.selectedMedicine===null){
+        if (this.state.selectedAmount === "0" || this.state.selectedAmount === null || this.state.selectedPharmacy === "0" || this.state.selectedPharmacy === null || this.state.selectedMedicine === "0" || this.state.selectedMedicine === null) {
             this.setState({
-                validateErrorMessage:true
+                validateErrorMessage: true
             });
-        }else{
+        } else {
 
             //console.log(this.findAmountOfmedicine(this.state.selectedMedicine));
 
 
             let obj = {
-                medicineID: this.findRelatedObject(this.state.allmedicineList,this.state.selectedMedicine),
+                medicineID: this.findRelatedObject(this.state.allmedicineList, this.state.selectedMedicine),
                 amount: parseInt(this.state.selectedAmount),
-                totalPricePerItem:this.findRelatedObject(this.state.allmedicineList,this.state.selectedMedicine).price*this.state.selectedAmount
+                totalPricePerItem: this.findRelatedObject(this.state.allmedicineList, this.state.selectedMedicine).price * this.state.selectedAmount
             };
             //console.log(obj)
 
-            let array=[];
-            array=[...this.state.purchasingList,obj]
+            let array = [];
+            array = [...this.state.purchasingList, obj]
             this.setState({
-                purchasingList:array,
-                validateErrorMessage:false
+                purchasingList: array,
+                validateErrorMessage: false
             });
 
         }
@@ -85,44 +98,44 @@ class Buy extends Component {
 
 
 
-    // puchToPurchasingList =() =>{
-    //     let array=[];
-    //     this.setState
-    // }
+        // puchToPurchasingList =() =>{
+        //     let array=[];
+        //     this.setState
+        // }
 
 
     }
 
 
-    onClickPlaceOrder =() =>{
+    onClickPlaceOrder = () => {
         //console.log(localStorage.getItem("id"));
         //console.log("clicked")
-        if(this.state.purchasingList.length===0 || this.state.customerID===null){
+        if (this.state.purchasingList.length === 0 || this.state.customerID === null) {
             console.log("empty");
-        }else{ 
-            
+        } else {
+
             let object = {
-                customerID:this.state.customerID,
-                pharmacyID:this.state.selectedPharmacy,
-                medicines:this.state.purchasingList,
-                totalPrice:this.calculateTotalPrice(this.state.purchasingList),
-                type:"p"
+                customerID: this.state.customerID,
+                pharmacyID: this.state.selectedPharmacy,
+                medicines: this.state.purchasingList,
+                totalPrice: this.calculateTotalPrice(this.state.purchasingList),
+                type: "p"
             };
             this.addOrder(object)
-            .then((res)=>{
-                //console.log(res);
-                //console.log(this.props.match.url);
-                this.props.history.push("/customer/myorders")
-            }).catch((e)=>{
-                console.log(e);
-            })
+                .then((res) => {
+                    //console.log(res);
+                    //console.log(this.props.match.url);
+                    this.props.history.push("/customer/myorders")
+                }).catch((e) => {
+                    console.log(e);
+                })
         }
     }
 
-    findAmountOfmedicine = (medicineID) =>{
-        return this.state.medicineWithDetails.find((ob)=>ob.medicineID.id===medicineID).availableAmount
+    findAmountOfmedicine = (medicineID) => {
+        return this.state.medicineWithDetails.find((ob) => ob.medicineID.id === medicineID).availableAmount
     }
-    
+
 
 
     fetchPharmacy = () => {
@@ -144,8 +157,8 @@ class Buy extends Component {
         return axiosDB.get(`pharmacyMedicine.json?orderBy="pharmacyID"&equalTo="${this.state.selectedPharmacy}"`)
 
     }
-    addOrder =(object)=>{
-        return axiosDB.post("order.json",object);
+    addOrder = (object) => {
+        return axiosDB.post("order.json", object);
     }
 
 
@@ -191,7 +204,24 @@ class Buy extends Component {
         //console.log(array);
         return array;
 
-       
+
+    }
+    removeMedicineFromPurchasingList =(id) =>{
+
+        let newArray = [...this.state.purchasingList];
+
+        console.log(newArray);
+        console.log(id);
+        let index =  newArray.indexOf( newArray.find((ob)=>ob.medicineID.id===id));
+        newArray.splice(index,1);
+        this.setState({
+            purchasingList:newArray
+        })
+
+    }
+
+    findMedi =(array,id)=>{
+
     }
 
     calculateTotalPrice = (array) => {
@@ -235,43 +265,65 @@ class Buy extends Component {
 
         return (
             <>
-                <form onSubmit={this.onAddtoListClick}>
-                    <h1>Place your order here</h1><br />
-                    {spinner}
-                    <br />
-                    {validateErrorMessage}
-                    <label>Pharmacy</label>
-                    <select onChange={this.onChangePharmacy} required>
-                        <option value={0}>Select Pharmacy</option>
-                        {this.state.pharmacies.map((pharmacy) => {
-                            return (<option key={pharmacy.id} value={pharmacy.id}>{pharmacy.pharmacyName} - {pharmacy.pharmacyLocation}</option>);
-                        })}
-                    </select>
-                    <br />
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-5">
+                            <div style={this.formStyle}>
+                                <form onSubmit={this.onAddtoListClick}>
+                                    <h1>Place your order here</h1><br />
+                                    {spinner}
+                                    <br />
+                                    {validateErrorMessage}
 
-                    <label>Medicine</label>
-                    <select disabled={this.state.disableMedicine} onChange={this.onChangeMedicine} required>
-                        <option value={0}>Select Medicine</option>
+                                    <div className="form-group">
+                                        <label>Pharmacy</label>
+                                        <select onChange={this.onChangePharmacy} className="form-control" required>
+                                            <option value={0}>Select Pharmacy</option>
+                                            {this.state.pharmacies.map((pharmacy) => {
+                                                return (<option key={pharmacy.id} value={pharmacy.id}>{pharmacy.pharmacyName} - {pharmacy.pharmacyLocation}</option>);
+                                            })}
+                                        </select>
+                                    </div>
 
-                        {this.state.medicineWithDetails.map((medicine) => {
-                            return (<option key={medicine.medicineID.id} value={medicine.medicineID.id}>{medicine.medicineID.name}-{medicine.medicineID.dose}mg</option>);
-                        })}
-                    </select>
-                    <br />
+                                    <div className="form-group">
+                                        <label>Medicine</label>
+                                        <select disabled={this.state.disableMedicine} className="form-control" onChange={this.onChangeMedicine} required>
+                                            <option value={0}>Select Medicine</option>
 
-                    <label>Quantity</label>
-                    <input type="text" id="quantity" name="quantity" disabled={this.state.disableMedicine} onChange={this.onChangeAmount} required />
-                    <br />
-                    <input type="submit" value="Add to cart" disabled={this.state.disableMedicine} />
-                    <input type="reset" value="Clear" disabled={this.state.disableMedicine} />
+                                            {this.state.medicineWithDetails.map((medicine) => {
+                                                return (<option key={medicine.medicineID.id} value={medicine.medicineID.id}>{medicine.medicineID.name}-{medicine.medicineID.dose}mg</option>);
+                                            })}
+                                        </select>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Quantity</label>
+                                        <input type="text" id="quantity" className="form-control" name="quantity" disabled={this.state.disableMedicine} onChange={this.onChangeAmount} required />
+                                    </div>
+
+                                    <input type="submit" className="btn btn-primary" value="Add to cart" disabled={this.state.disableMedicine} />
+                                    {/* <input type="reset" value="Clear" disabled={this.state.disableMedicine} />
                     <br /><br /><br />
                     <h2>please attach a photo of prescription</h2>
                     <label>Select a image</label>
-                    <input type="file" id="myfile" name="myfile"></input>
-                </form>
-                <div>
-                    <TableCus medicineList={this.state.purchasingList} placeOrder={this.onClickPlaceOrder}/>
+                    <input type="file" id="myfile" name="myfile"></input> */}
+                                </form>
+                            </div>
+                        </div>
+                        <div className="col-md-1">
+                            <div style={this.lineStyle}></div>
+                        </div>
+                        <div className="col-md-6">
+                            <div>
+                                <TableCus medicineList={this.state.purchasingList} placeOrder={this.onClickPlaceOrder} removeItem={this.removeMedicineFromPurchasingList}/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <br />
+                <br />
+
             </>
         );
     }

@@ -13,6 +13,13 @@ class CustomerRegistration extends Component {
         customerPassword: null,
     };
 
+    formStyle= {
+        width:"40%",
+        
+        margin:"0 auto",
+        marginTop:"px"
+    };
+
 
 
     //add customer to the database
@@ -72,28 +79,41 @@ class CustomerRegistration extends Component {
             });
 
     }
+    onClickCancel= ()=>{
+        this.props.history.push("/");
+    }
     render() {
         return (
             <>
-                <h1>Customer Registration</h1>
-                <form onSubmit={this.onInputCustomerClick}>
-                    <label>Name</label>
-                    <input type="text" onChange={this.onChangeCustomerName} required/>
-                    <br />
-                    <label>Address</label>
-                    <input type="text" onChange={this.onChangeCustomerAddress} required/>
-                    <br />
-                    <label>Contact Number</label>
-                    <input type="text" onChange={this.onChangeCustomerContactNumber} required/>
-                    <br />
-                    <label>Email</label>
-                    <input type="email" onChange={this.onChangeCustomerEmail} required/>
-                    <br />
-                    <label>password</label>
-                    <input type="password" minLength="6" onChange={this.onChangeCustomerPassword} required/>
-                    <br />
-                    <input type="submit" value="Register" />
-                </form>
+                <div style={this.formStyle}>
+                    <h1>Customer Registration</h1>
+                    <form onSubmit={this.onInputCustomerClick}>
+                        <div className="form-group">
+                            <label>Name</label>
+                            <input type="text" className="form-control" onChange={this.onChangeCustomerName} required />
+                        </div>
+                        <div className="form-group">
+                            <label>Address</label>
+                            <input type="text" className="form-control" onChange={this.onChangeCustomerAddress} required />
+                        </div>
+                        <div className="form-group">
+                            <label>Contact Number</label>
+                            <input type="text" className="form-control" onChange={this.onChangeCustomerContactNumber} required />
+                        </div>
+                        <div className="form-group">
+
+                            <label>Email</label>
+                            <input type="email" className="form-control" onChange={this.onChangeCustomerEmail} required />
+                        </div>
+                        <div className="form-group">
+                            <label>password</label>
+                            <input type="password" className="form-control" minLength="6" onChange={this.onChangeCustomerPassword} required />
+                        </div>
+                        <input type="submit" value="Register" className="btn btn-primary" />|
+                        <input className="btn btn-danger" type="button" value="cancel" onClick={this.onClickCancel}/>
+                    </form>
+                </div>
+
             </>
 
         );

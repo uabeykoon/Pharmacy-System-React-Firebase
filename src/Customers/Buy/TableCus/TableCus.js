@@ -7,6 +7,7 @@ const TableCus = (props) => {
 
     return (
         <>
+        <h1>Purchasing List</h1><br />
             {/* {props.input2} */}
             <table id="customers">
                 <thead>
@@ -16,6 +17,7 @@ const TableCus = (props) => {
                         <th>Price Per Unit</th>
                         <th>Amount</th>
                         <th>Total Price Per Item</th>
+                        <th>Remove</th>
 
                     </tr>
                 </thead>
@@ -27,6 +29,7 @@ const TableCus = (props) => {
                             <td>Rs {medicine.medicineID.price}/=</td>
                             <td>{medicine.amount}</td>
                             <td>Rs {medicine.amount * medicine.medicineID.price}/=</td>
+                            <td><button className="btn btn-danger" onClick={()=>props.removeItem(medicine.medicineID.id)}>Remove</button></td>
                         </tr>);
                     })}
                 </tbody>

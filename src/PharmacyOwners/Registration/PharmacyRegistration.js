@@ -76,6 +76,10 @@ class PharmacyRegistration extends Component {
 
     }
 
+    onClickCancel= ()=>{
+        this.props.history.push("/");
+    }
+
     render() {
 
         const errorMessage = this.state.errorMessage?(<div class="alert alert-danger" role="alert">
@@ -109,7 +113,7 @@ class PharmacyRegistration extends Component {
                         </div>
 
                         <input className="btn btn-primary" type="submit" value="Register" />|
-                        <input className="btn btn-danger" type="button" value="cancel" />
+                        <input className="btn btn-danger" type="button" value="cancel" onClick={this.onClickCancel}/>
                     </form>
                 </div>
 
