@@ -9,6 +9,8 @@ import Customers from './Customers/Customers';
 import DataInput from './Direct Data Input/DataInput';
 import CustomerRegistration from './Customers/Registration/CustomerRegistration';
 import PharmacyRegistration from './PharmacyOwners/Registration/PharmacyRegistration';
+import Dashboard from './Dashboard/Dashboard';
+import AreaChart from './Charts/Area Chart';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/customer" component={Customers } />
           <Route path="/customerregistration" component={CustomerRegistration } />
           <Route path="/pharmacyregistration" component={PharmacyRegistration } />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/chart" component={AreaChart} />
           <Route path="/" component={SignIn} />
         </Switch>
 

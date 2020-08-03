@@ -4,6 +4,7 @@ import Buy from "./Buy/Buy";
 import { NavLink, Route, Switch } from "react-router-dom";
 import MyOrders from "./MyOrders/MyOrders";
 import './Customer.css';
+import HistoryCustomers from "./History/HistoryCustomer";
 
 class Customers extends Component {
     onLogoutClick =() =>{
@@ -18,6 +19,7 @@ class Customers extends Component {
                     <ul>
                         <li><NavLink to={this.props.match.url + "/buy"} >Buy</NavLink></li>
                         <li><NavLink to={this.props.match.url + "/myorders"}>My Orders</NavLink></li>
+                        <li><NavLink to={this.props.match.url + "/historycustomer"}>History</NavLink></li>
                         <li><a onClick={this.onLogoutClick}><span className="logout">Log out</span></a></li>
                     </ul>
                 </div>
@@ -25,6 +27,7 @@ class Customers extends Component {
                     <Switch>
                         <Route path={this.props.match.url + "/buy"} component={Buy} />
                         <Route path={this.props.match.url + "/myorders"} component={MyOrders} />
+                        <Route path={this.props.match.url + "/historycustomer"} component={HistoryCustomers} />
                     </Switch>
 
                 </div>

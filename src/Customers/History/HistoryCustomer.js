@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink, Route, Switch } from "react-router-dom";
 import { axiosAPI, axiosDB } from "../../Axios/Axios";
 
-class MyOrders extends Component {
+class HistoryCustomers extends Component {
 
     state = {
         myTokan: null,
@@ -78,7 +78,7 @@ class MyOrders extends Component {
     }
 
     filterOrderAccordingToStatus = (array) => {
-        let newArray = array.filter((order) => order.type === "p" || order.type === "a");
+        let newArray = array.filter((order) => order.type === "c" || order.type === "r");
         console.log(newArray)
         return newArray;
     }
@@ -95,9 +95,9 @@ class MyOrders extends Component {
                     {this.state.orderList.map((order) => {
                         return (<a className="list-group-item list-group-item-action flex-column align-items-start" key={order.id}>
                             <div className="d-flex w-100 justify-content-between">
-                                <h5 className="mb-1">Order</h5>
+                            <h3>{order.pharmacyID.pharmacyName} Pharmacy - {order.pharmacyID.pharmacyLocation}</h3>
                                 <div>
-                                <h3>{order.pharmacyID.pharmacyName} Pharmacy - {order.pharmacyID.pharmacyLocation}</h3>
+                                {/* <h3>{order.pharmacyID.pharmacyName} Pharmacy - {order.pharmacyID.pharmacyLocation}</h3> */}
                     {/* <p>{order.pharmacyID.pharmacyAddress}</p> */}
                                 </div>
                     
@@ -108,7 +108,7 @@ class MyOrders extends Component {
                             })}
 
                             <h3>Rs {order.totalPrice} /=</h3>
-                            <button className="btn btn-success">{order.type === "p" ? "Pending" : "Accepted"}</button>
+                            <button className={order.type==="c"?"btn btn-primary":"btn btn-danger"}>{order.type === "c" ? "Completed" : "Rejected"}</button>
                         </a>
 
                         );
@@ -122,4 +122,4 @@ class MyOrders extends Component {
     }
 }
 
-export default MyOrders;
+export default HistoryCustomers;
