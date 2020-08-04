@@ -26,7 +26,6 @@ const TableCustomerDash = (props) => {
                             <td>{customer.customerAddress}</td>
                             <td>{customer.customerEmail}</td>
                             <td>{customer.customerContactNumber}</td>
-                        <td></td>
                            
                         </tr>);
                     })}

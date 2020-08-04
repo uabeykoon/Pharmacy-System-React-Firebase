@@ -25,6 +25,12 @@ class Dashboard extends Component {
     };
 
 
+    onLogoutClick =() =>{
+        localStorage.removeItem("id");
+        this.props.history.push("/");
+    }
+
+
     render() {
 
 

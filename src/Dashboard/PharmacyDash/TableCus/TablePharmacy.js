@@ -24,7 +24,7 @@ const TablePharmacy = (props) => {
                     {props.pharmacyList.map((pharmacy) => {
                         return (<tr key={pharmacy.id}>
                             <td>{pharmacy.pharmacyName}</td>
-                            <td>{pharmacy.pharmacyLocation}mg</td>
+                            <td>{pharmacy.pharmacyLocation}</td>
                         <td>{pharmacy.pharmacyEmail}</td>
                         <td>{pharmacy.pharmacyContactNumber}</td>
                         <td>{pharmacy.medicineCount}</td>

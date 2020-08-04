@@ -10,14 +10,14 @@ class SignIn extends Component {
         email: null,
         password: null,
         type: null,
-        errorMessage:false
+        errorMessage: false
     };
 
-    formStyle= {
-        width:"40%",
-        textAlign:"center",
-        margin:"0 auto",
-        marginTop:"100px"
+    formStyle = {
+        width: "40%",
+        textAlign: "center",
+        margin: "0 auto",
+        marginTop: "100px"
     };
 
     onSignInClick = (e) => {
@@ -84,13 +84,13 @@ class SignIn extends Component {
                         });
                 } else if (this.state.type === null || this.state.type === "0") {
                     this.setState({
-                        errorMessage:true
+                        errorMessage: true
                     });
                 }
 
             }).catch((err) => {
                 this.setState({
-                    errorMessage:true
+                    errorMessage: true
                 });
                 console.log("invalid username and passsword");
             })
@@ -116,16 +116,16 @@ class SignIn extends Component {
 
 
 
-        const errorMessage = this.state.errorMessage?(<div class="alert alert-danger" role="alert">
-        Input are invalid
-      </div>):null;
-    
+        const errorMessage = this.state.errorMessage ? (<div class="alert alert-danger" role="alert">
+            Input are invalid
+        </div>) : null;
+
         return (
             <>
 
-                <div style={this.formStyle}>
+                <div className="border border-info" style={this.formStyle}>
 
-
+                    <h1 style={{backgroundColor:"blue",color:"white"}}>Online Pharmacy System</h1>
                     <h2 className="inactive underlineHover">Sign In </h2>
                     {errorMessage}
 
@@ -151,6 +151,8 @@ class SignIn extends Component {
                         <Link to="/customerregistration">Customer Registration</Link>
                         <br />
                         <Link to="/pharmacyregistration">Pharmacy Registration</Link>
+                        <br />
+                        <Link to="/dashboard/dash">Quick Dashboard</Link>
                     </div>
 
                 </div>

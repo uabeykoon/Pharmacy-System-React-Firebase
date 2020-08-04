@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { Link, NavLink, Route, Switch } from "react-router-dom";
 import { axiosDB } from "../../Axios/Axios";
+import PieChart from "./Pie";
 //import './SignIn.css';
 
 class Dash extends Component {
@@ -131,6 +132,12 @@ class Dash extends Component {
                         </div>
 
 
+                    </div>
+                    <br />
+                    <div className="row">
+                        <div className="col-md-12" style={{textAlign:"center"}}>
+                            <PieChart />
+                        </div>
                     </div>
                 </div>
             </>
