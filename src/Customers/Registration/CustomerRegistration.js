@@ -17,7 +17,7 @@ class CustomerRegistration extends Component {
         width:"40%",
         
         margin:"0 auto",
-        marginTop:"px"
+        marginTop:"100px"
     };
 
 
